@@ -5,8 +5,17 @@ var bodyParser  = require('body-parser');
 var mongoose = require('mongoose');
 var config = require('./config/config');
 var product = require('./routs/product');
+
+var webpack = require('webpack');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
+var webPackConfig = require('./webpack.config');
+
 mongoose.connect('mongodb://localhost/test');
 
+var compiler = webpack(config)
+app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
+app.use(webpackHotMiddleware(compiler))
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
